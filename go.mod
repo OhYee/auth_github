@@ -1,4 +1,4 @@
-module github.com/OhYee/github_connect
+module github.com/OhYee/auth_github
 
 go 1.14
 
