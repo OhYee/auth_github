@@ -137,6 +137,9 @@ func (conn *Connect) Info(token string) (res UserInfo, err error) {
 	params.Add("access_token", token)
 
 	resp, err := http.Get(fmt.Sprintf("https://api.github.com/user?%s", params.Encode()))
+	if err != nil {
+		return
+	}
 
 	var b []byte
 	if b, err = ioutil.ReadAll(resp.Body); err != nil {
