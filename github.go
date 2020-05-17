@@ -136,7 +136,16 @@ func (conn *Connect) Info(token string) (res UserInfo, err error) {
 	params := make(url.Values)
 	params.Add("access_token", token)
 
-	resp, err := http.Get(fmt.Sprintf("https://api.github.com/user?%s", params.Encode()))
+	req, err := http.NewRequest("GET", "https://api.github.com/user", nil)
+	if err != nil {
+		return
+	}
+	// Using Authorization Header instead of query param
+	// https://developer.github.com/changes/2020-02-10-deprecating-auth-through-query-param/
+	req.Header.Set("Authorization", fmt.Sprintf("token %s", token))
+
+	clt := http.Client{}
+	resp, err := clt.Do(req)
 	if err != nil {
 		return
 	}
